@@ -1,0 +1,7 @@
+[target.thumbv7m-none-eabi]
+rustflags = [
+    "-C", "link-arg=-nostartfiles",
+]
+
+[build]
+target = "thumbv7m-none-eabi"
