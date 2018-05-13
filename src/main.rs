@@ -3,18 +3,15 @@
 #![deny(unsafe_code)]
 #![deny(warnings)]
 #![no_std]
-#![feature(lang_items, start)]
 
 extern crate cortex_m;
 extern crate panic_abort;
 extern crate stm32f103xx_hal as hal;
 
-use cortex_m::asm;
 use hal::prelude::*;
 use hal::stm32f103xx;
 
-#[start]
-fn start(_argc: isize, _argv: *const *const u8) -> isize {
+fn main() {
     let p = stm32f103xx::Peripherals::take().unwrap();
 
     let mut flash = p.FLASH.constrain();
@@ -59,19 +56,8 @@ fn start(_argc: isize, _argv: *const *const u8) -> isize {
 
     pwm.enable();
 
-    // full
-    pwm.set_duty(max);
-
-    asm::bkpt();
-
     // dim
     pwm.set_duty(max / 4);
 
-    asm::bkpt();
-
-    // zero
-    pwm.set_duty(0);
-
-    asm::bkpt();
-    0
+    loop {}
 }
