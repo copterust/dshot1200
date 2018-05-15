@@ -55,6 +55,8 @@ fn main() {
 
     let mut esc = dshot_esc::DShotESC::new(pwm);
     loop {
+        esc.reset();
         esc.set_value(90, false);
+        esc.reset();
     }
 }

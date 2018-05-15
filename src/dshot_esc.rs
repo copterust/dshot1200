@@ -14,6 +14,12 @@ impl DShotESC {
         DShotESC { frame: 0, pwm: pwm }
     }
 
+    pub fn reset(&mut self) {
+        for _ in 0..16 {
+            self.pwm.set_duty(0);
+        }
+    }
+
     pub fn set_value(&mut self, value: u16, request_telemetry: bool) {
         self.frame = value << 1;
         self.frame |= if request_telemetry { 1 } else { 0 };
