@@ -11,6 +11,8 @@ extern crate stm32f103xx_hal as hal;
 use hal::prelude::*;
 use hal::stm32f103xx;
 
+mod dshot_esc;
+
 fn main() {
     let p = stm32f103xx::Peripherals::take().unwrap();
 
@@ -42,22 +44,17 @@ fn main() {
     let c3 = gpiob.pb8.into_alternate_push_pull(&mut gpiob.crh);
     let c4 = gpiob.pb9.into_alternate_push_pull(&mut gpiob.crh);
 
-    let mut pwm = p.TIM4
+    let pwm = p.TIM4
         .pwm(
             (c1, c2, c3, c4),
             &mut afio.mapr,
             1.khz(),
             clocks,
             &mut rcc.apb1,
-        )
-        .3;
+        ).3;
 
-    let max = pwm.get_max_duty();
-
-    pwm.enable();
-
-    // dim
-    pwm.set_duty(max / 4);
-
-    loop {}
+    let mut esc = dshot_esc::DShotESC::new(pwm);
+    loop {
+        esc.set_value(90, false);
+    }
 }
