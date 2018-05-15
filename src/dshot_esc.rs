@@ -9,7 +9,8 @@ pub struct DShotESC {
 }
 
 impl DShotESC {
-    pub fn new(pwm: hal::pwm::Pwm<TIM4, C4>) -> Self {
+    pub fn new(mut pwm: hal::pwm::Pwm<TIM4, C4>) -> Self {
+        pwm.enable();
         DShotESC { frame: 0, pwm: pwm }
     }
 
