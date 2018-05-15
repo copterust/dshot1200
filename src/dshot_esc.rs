@@ -29,7 +29,7 @@ impl DShotESC {
         let mut to_send = self.frame;
         for _ in 0..16 {
             if to_send & 0x8000 == 0 {
-                self.pwm.set_duty(2 * max / 3);
+                self.pwm.set_duty(1 * max / 3);
             } else {
                 self.pwm.set_duty(2 * max / 3);
             }
